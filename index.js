@@ -1,5 +1,6 @@
 const discord = require("discord.js");
 const bot = new discord.Client();
+NjIzOTEzMTM5OTgwOTkyNTY5.XYJWZA.XbaayJ48NQcr9KQgA49V1jxWMzA
 const token = "C2B3614F5248F69DE11EF7F1D452FC2B3614F5248F69DE11EF7F1D452F";
 const fs = require("fs");
 const xpfile = require("./xp.json");
