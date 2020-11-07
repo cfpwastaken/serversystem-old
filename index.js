@@ -1,6 +1,10 @@
+const token = process.env.token; // Heroku
+//const token = "HksbjxcbsjHGaj6297hjsh8757jsjks"; // Discord Token (HARDCODED)
+
+
+
 const discord = require("discord.js");
 const bot = new discord.Client();
-const token = "C2B3614F5248F69DE11EF7F1D452FC2B3614F5248F69DE11EF7F1D452F";
 const fs = require("fs");
 const xpfile = require("./xp.json");
 
@@ -341,4 +345,4 @@ bot.on("guildMemberRemove", function(member) {
     channel.send(member.displayName + " hat den Server verlassen! :sob:");
 });
 
-bot.login(token);
+bot.login(TOKEN);
