@@ -12,7 +12,12 @@ const fs = require("fs");
 const xpfile = require("./xp.json");
 const dashboard = require("../dashboard/server.js");
 
-var ws = new dashboard("123456", PORT, bot);
+const { v4: uuidV4 } = require("uuid");
+var ws = new dashboard(PORT, bot);
+
+function newUID() {
+    return uuidV4();
+}
 
 bot.on("ready", () => {
     console.log("[Bot] Bot is now up and running!");
