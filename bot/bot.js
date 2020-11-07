@@ -261,8 +261,8 @@ bot.on("message", async message=> {
     if(message.content.startsWith(prefix + "level")) {
         let user = message.mentions.users.first() || message.author;
 
-        if(!xpfile[message.server][user.id]) {
-            xpfile[message.server][user.id] = {
+        if(!xpfile[user.id]) {
+            xpfile[user.id] = {
                 xp: 0,
                 level: 1,
                 reqxp: 100
@@ -284,9 +284,9 @@ bot.on("message", async message=> {
         const card = new canvacord.Rank()
             .setUsername(message.author.username)
             .setDiscriminator(message.author.discriminator)
-            .setLevel(parseInt(xpfile[message.server][user.id].level))
-            .setCurrentXP(parseInt(xpfile[message.server][user.id].xp))
-            .setRequiredXP(parseInt(xpfile[message.server][user.id].reqxp))
+            .setLevel(parseInt(xpfile[user.id].level))
+            .setCurrentXP(parseInt(xpfile[user.id].xp))
+            .setRequiredXP(parseInt(xpfile[user.id].reqxp))
             .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));
         
         const img = await card.build();
