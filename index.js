@@ -1,5 +1,5 @@
-const token = process.env.token; // Heroku
-//const token = "HksbjxcbsjHGaj6297hjsh8757jsjks"; // Discord Token (HARDCODED)
+const TOKEN = process.env.token; // Heroku
+//const TOKEN = "HksbjxcbsjHGaj6297hjsh8757jsjks"; // Discord Token (HARDCODED)
 
 
 
