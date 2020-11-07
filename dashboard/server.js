@@ -1,4 +1,4 @@
-const PORT = 3000;
+const PORT = process.env.PORT || 80;
 
 
 const express = require("express");
@@ -8,6 +8,6 @@ app.route("/", (req, res) => {
 
 });
 
-app.listen(80, () => {
+app.listen(PORT, () => {
     console.log("[Dashboard] Dashboard now Up and Running!");
 });
