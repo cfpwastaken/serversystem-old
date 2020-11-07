@@ -346,7 +346,7 @@ bot.on("message", async message=> {
     }
 
     if(message.content.startsWith("-dashboard")) {
-        if(message.author.hasPermission("ADMINISTRATOR")) {
+        if(message.member.hasPermission("ADMINISTRATOR")) {
             message.reply("https://serversystembot.herokuapp.com/" + uuidV4());
         }
     }
