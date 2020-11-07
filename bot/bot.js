@@ -226,8 +226,8 @@ bot.on("message", async message=> {
     if(message.channel.name != "spam") {
         var addXP = Math.floor(Math.random() * 8) + 3;
 
-        if(!xpfile[message.server][message.author.id]) {
-            xpfile[message.server][message.author.id] = {
+        if(!xpfile[message.author.id]) {
+            xpfile[message.author.id] = {
                 xp: 0,
                 level: 1,
                 reqxp: 100
@@ -240,15 +240,15 @@ bot.on("message", async message=> {
             });
         }
 
-        xpfile[message.server][message.author.id].xp += addXP;
+        xpfile[message.author.id].xp += addXP;
 
-        if(xpfile[message.server][message.author.id].xp > xpfile[message.server][message.author.id].reqxp) {
-            xpfile[message.server][message.author.id].xp -= xpfile[message.server][message.author.id].reqxp;
-            xpfile[message.server][message.author.id].reqxp *= 1.25;
-            xpfile[message.server][message.author.id].reqxp = Math.floor(xpfile[message.server][message.author.id].reqxp);
-            xpfile[message.server][message.author.id].level += 1;
+        if(xpfile[message.author.id].xp > xpfile[message.author.id].reqxp) {
+            xpfile[message.author.id].xp -= xpfile[message.author.id].reqxp;
+            xpfile[message.author.id].reqxp *= 1.25;
+            xpfile[message.author.id].reqxp = Math.floor(xpfile[message.author.id].reqxp);
+            xpfile[message.author.id].level += 1;
 
-            message.reply(embed("XP", "Du bist nun Level " + xpfile[message.server][message.author.id].level + " :tada:", "RANDOM", "XP System"));
+            message.reply(embed("XP", "Du bist nun Level " + xpfile[message.author.id].level + " :tada:", "RANDOM", "XP System"));
         }
 
         fs.writeFile("./xp.json", JSON.stringify(xpfile), function(err) {
