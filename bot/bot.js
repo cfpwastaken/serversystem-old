@@ -226,8 +226,8 @@ bot.on("message", async message=> {
     if(message.channel.name != "spam") {
         var addXP = Math.floor(Math.random() * 8) + 3;
 
-        if(!xpfile[message.author.id]) {
-            xpfile[message.author.id] = {
+        if(!xpfile[message.server][message.author.id]) {
+            xpfile[message.server][message.author.id] = {
                 xp: 0,
                 level: 1,
                 reqxp: 100
@@ -240,15 +240,15 @@ bot.on("message", async message=> {
             });
         }
 
-        xpfile[message.author.id].xp += addXP;
+        xpfile[message.server][message.author.id].xp += addXP;
 
-        if(xpfile[message.author.id].xp > xpfile[message.author.id].reqxp) {
-            xpfile[message.author.id].xp -= xpfile[message.author.id].reqxp;
-            xpfile[message.author.id].reqxp *= 1.25;
-            xpfile[message.author.id].reqxp = Math.floor(xpfile[message.author.id].reqxp);
-            xpfile[message.author.id].level += 1;
+        if(xpfile[message.server][message.author.id].xp > xpfile[message.server][message.author.id].reqxp) {
+            xpfile[message.server][message.author.id].xp -= xpfile[message.server][message.author.id].reqxp;
+            xpfile[message.server][message.author.id].reqxp *= 1.25;
+            xpfile[message.server][message.author.id].reqxp = Math.floor(xpfile[message.server][message.author.id].reqxp);
+            xpfile[message.server][message.author.id].level += 1;
 
-            message.reply(embed("XP", "Du bist nun Level " + xpfile[message.author.id].level + " :tada:", "RANDOM", "XP System"));
+            message.reply(embed("XP", "Du bist nun Level " + xpfile[message.server][message.author.id].level + " :tada:", "RANDOM", "XP System"));
         }
 
         fs.writeFile("./xp.json", JSON.stringify(xpfile), function(err) {
@@ -261,8 +261,8 @@ bot.on("message", async message=> {
     if(message.content.startsWith(prefix + "level")) {
         let user = message.mentions.users.first() || message.author;
 
-        if(!xpfile[user.id]) {
-            xpfile[user.id] = {
+        if(!xpfile[message.server][user.id]) {
+            xpfile[message.server][user.id] = {
                 xp: 0,
                 level: 1,
                 reqxp: 100
@@ -284,11 +284,10 @@ bot.on("message", async message=> {
         const card = new canvacord.Rank()
             .setUsername(message.author.username)
             .setDiscriminator(message.author.discriminator)
-            .setLevel(parseInt(xpfile[user.id].level))
-            .setCurrentXP(parseInt(xpfile[user.id].xp))
-            .setRequiredXP(parseInt(xpfile[user.id].reqxp))
-            .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}))
-            .setStatus(message.author.status);
+            .setLevel(parseInt(xpfile[message.server][user.id].level))
+            .setCurrentXP(parseInt(xpfile[message.server][user.id].xp))
+            .setRequiredXP(parseInt(xpfile[message.server][user.id].reqxp))
+            .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));
         
         const img = await card.build();
 
@@ -296,7 +295,7 @@ bot.on("message", async message=> {
     }
 
     if(message.content === prefix + "help" || message.content === "-help") {
-        message.channel.send(embed("Help", "**Commands:**\n-ping • Zeigt die Leistung des Bots an\n-serverinfo • Zeigt Infos zum Server an\n-user <ping> • Zeigt Userinfos an\n-clear [nummer] • Löscht [nummer] Nachrichten\n-umfrage [Nachricht] • Erstellt eine Umfrage\n-meme <meme> • Befüllt dich mit Memes!\n**Features:**\nGlobalchat • Erstelle einen Channel \"global\" und der Globalchat ist fertig!\nXP-System • -level um deine Level zu sehen (Leveln in #spam deaktiviert!)\nWillkommensnachrichten • Werden automatisch in #welcome geschickt.\nAutoMod • Moderiert Automatisch für dich.\nTicketSystem • benötigt eine Rolle \"Supporter\" und einen Channel #ticket, -createticket und -closeticket", "RANDOM", "Hilfe"));
+        message.channel.send(embed("Help", "**Commands:**\n-ping • Zeigt die Leistung des Bots an\n-serverinfo • Zeigt Infos zum Server an\n-user <ping> • Zeigt Userinfos an\n-clear [nummer] • Löscht [nummer] Nachrichten\n-umfrage [Nachricht] • Erstellt eine Umfrage\n-meme <meme> • Befüllt dich mit Memes!\n-invite • Bot adden\n**Features:**\nGlobalchat • Erstelle einen Channel \"global\" und der Globalchat ist fertig!\nXP-System • -level um deine Level zu sehen (Leveln in #spam deaktiviert!)\nWillkommensnachrichten • Werden automatisch in #welcome geschickt.\nAutoMod • Moderiert Automatisch für dich.\nTicketSystem • benötigt eine Rolle \"Supporter\" und einen Channel #ticket, -createticket und -closeticket", "RANDOM", "Hilfe"));
     }
 
     if(message.content.startsWith(prefix + "clear")) {
@@ -521,6 +520,10 @@ bot.on("message", async message=> {
             const result = eval(message.content.replace(prefix + "eval ", ""));
             message.channel.send(result);
         }
+    }
+
+    if(message.content.startsWith(prefix + "invite")) {
+        message.reply("https://discord.com/oauth2/authorize?client_id=623913139980992569&permissions=8&scope=bot");
     }
 
 });
