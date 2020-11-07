@@ -17,7 +17,7 @@ class Dashboard {
         });
 
         this.app.get("/:uid", (req, res) => {
-            if(this.serveruuids.hasOwnProperty(req.params.uuid)) res.send("Yes");
+            if(this.serveruuids[req.params.uid]) res.send("Yes");
             else res.send("No");
         })
 
