@@ -14,7 +14,7 @@ const ascii = require("ascii-art");
 const serverstats = require("./servers.json");
 const canvacord = require("canvacord");
 
-const ytdl = require("ytdl-core");
+//const ytdl = require("ytdl-core");
 
 //bot.db = require("quick.db");
 //bot.canvas = new Canvacord();
