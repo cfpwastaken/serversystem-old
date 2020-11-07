@@ -284,7 +284,6 @@ bot.on("message", async message=> {
         const card = new canvacord.Rank()
             .setUsername(message.author.username)
             .setDiscriminator(message.author.discriminator)
-            .setRank(parseInt(1))
             .setLevel(parseInt(xpfile[user.id].level))
             .setCurrentXP(parseInt(xpfile[user.id].xp))
             .setRequiredXP(parseInt(xpfile[user.id].reqxp))
@@ -293,8 +292,6 @@ bot.on("message", async message=> {
         const img = await card.build();
 
         message.channel.send(new discord.MessageAttachment(img, "card.png"));
-        
-        message.channel.send(embed);
     }
 
     if(message.content === prefix + "help" || message.content === "-help") {
