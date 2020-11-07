@@ -1,6 +1,6 @@
 const TOKEN = process.env.token; // Heroku
 //const TOKEN = "HksbjxcbsjHGaj6297hjsh8757jsjks"; // Discord Token (HARDCODED)
-
+const PORT = process.env.PORT || 80;
 
 
 
@@ -10,6 +10,9 @@ const discord = require("discord.js");
 const bot = new discord.Client();
 const fs = require("fs");
 const xpfile = require("./xp.json");
+const dashboard = require("../dashboard/server.js");
+
+var ws = new dashboard("123456", PORT, bot);
 
 bot.on("ready", () => {
     console.log("[Bot] Bot is now up and running!");
