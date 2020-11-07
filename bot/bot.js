@@ -10,20 +10,19 @@ const discord = require("discord.js");
 const bot = new discord.Client();
 const fs = require("fs");
 const xpfile = require("./xp.json");
-const dashboard = require("../dashboard/server.js");
+const ascii = require("ascii-art");
+const serverstats = require("./servers.json");
 
-const { v4: uuidV4 } = require("uuid");
-var ws = new dashboard(PORT, bot);
+const ytdl = require("ytdl-core");
 
-function newUID() {
-    return uuidV4();
-}
+//bot.db = require("quick.db");
+//bot.canvas = new Canvacord();
 
 bot.on("ready", () => {
-    console.log("[Bot] Bot is now up and running!");
-    //bot.user.setActivity("-help", {type: "LISTENING"});
-    bot.user.setStatus("dnd");
-    bot.user.setActivity("cfps code", {type: "LISTENING"});
+    console.log("Ready");
+    bot.user.setActivity("-help", {type: "LISTENING"});
+    //bot.user.setStatus("dnd");
+    //bot.user.setActivity("nicht cfps code", {type: "LISTENING"});
 });
 
 function embed(title, desc, color, footer) {
@@ -35,10 +34,38 @@ function embed(title, desc, color, footer) {
     return embed;
 }
 
+function checkServerStats(guildid) {
+    if(!serverstats[guildid]) {
+        serverstats[guildid] = {
+            prefix: "-",
+            welcome: "welcome"
+        };
+    }
+
+    if(!serverstats[guildid].prefix) {serverstats[guildid].prefix = "-";}
+    if(!serverstats[guildid].welcome) {serverstats[guildid].welcome = "welcome";}
+
+    fs.writeFile("./servers.json", JSON.stringify(serverstats), function(err) {
+        if(err) {
+            console.log(err);
+        }
+    });
+}
+
 bot.on("message", async message=> {
     if(message.author.bot) return;
 
-    if(message.content.startsWith("-createticket")) {
+    checkServerStats(message.guild.id);
+
+    let prefix = serverstats[message.guild.id].prefix;
+
+    if(message.content.includes("hure") || message.content.includes("spast") || message.content.includes("huso") || message.content.includes("hurensohn")) {
+        message.reply("nicht beleidigen!");
+        message.delete();
+        return;
+    }
+
+    if(message.content.startsWith(prefix + "createticket")) {
         let rawusername = message.author.username.split("").slice(0);
 
         let username = "";
@@ -92,7 +119,7 @@ bot.on("message", async message=> {
 
         if(!category) await message.guild.channels.create("tickets", {type: "category"}).then(cat=>category = cat);
 
-        if(discord.guild.channels.cache.find(cha=>cha.name===`ticket-${username.toLowerCase()}`)) return message.reply("Du hast bereits ein Ticket erstellt!");
+        if(message.guild.channels.cache.find(cha=>cha.name===`ticket-${username.toLowerCase()}`)) return message.reply("Du hast bereits ein Ticket erstellt!");
 
         let supporter = message.guild.roles.cache.find(rl=>rl.name==="Supporter");
 
@@ -121,7 +148,7 @@ bot.on("message", async message=> {
 
     }
 
-    if(message.content.startsWith("-closeticket")) {
+    if(message.content.startsWith(prefix + "closeticket")) {
         let rawusername = message.author.username.split("").slice(0);
 
         let username = "";
@@ -230,8 +257,7 @@ bot.on("message", async message=> {
         });
     }
 
-
-    if(message.content.startsWith("-level")) {
+    if(message.content.startsWith(prefix + "level")) {
         let user = message.mentions.users.first() || message.author;
 
         if(!xpfile[user.id]) {
@@ -258,11 +284,11 @@ bot.on("message", async message=> {
         message.channel.send(embed);
     }
 
-    if(message.content === "-help") {
-        message.channel.send(embed("Help", "Commands:\n-serverinfo • Zeigt Infos zum Server an\n-user <ping> • Zeigt Userinfos an\n-clear [nummer] • Löscht [nummer] Nachrichten\n-umfrage [Nachricht] • Erstellt eine Umfrage\nFeatures:\nGlobalchat • Erstelle einen Channel \"global\" und der Globalchat ist fertig!\nXP-System • -level um deine Level zu sehen (Leveln in #spam deaktiviert!)\nWillkommensnachrichten • Werden automatisch in #welcome geschickt.", "RANDOM", "Hilfe"));
+    if(message.content === prefix + "help" || message.content === "-help") {
+        message.channel.send(embed("Help", "**Commands:**\n-ping • Zeigt die Leistung des Bots an\n-serverinfo • Zeigt Infos zum Server an\n-user <ping> • Zeigt Userinfos an\n-clear [nummer] • Löscht [nummer] Nachrichten\n-umfrage [Nachricht] • Erstellt eine Umfrage\n-meme <meme> • Befüllt dich mit Memes!\n**Features:**\nGlobalchat • Erstelle einen Channel \"global\" und der Globalchat ist fertig!\nXP-System • -level um deine Level zu sehen (Leveln in #spam deaktiviert!)\nWillkommensnachrichten • Werden automatisch in #welcome geschickt.\nAutoMod • Moderiert Automatisch für dich.\nTicketSystem • benötigt eine Rolle \"Supporter\" und einen Channel #ticket, -createticket und -closeticket", "RANDOM", "Hilfe"));
     }
 
-    if(message.content.startsWith("-clear")) {
+    if(message.content.startsWith(prefix + "clear")) {
         if(message.member.hasPermission("MANAGE_CHANNELS") || message.member.hasPermission("ADMINISTRATOR")) {
             let msgs = message.content.split(" ").slice(1).join("");
 
@@ -275,7 +301,7 @@ bot.on("message", async message=> {
         }
     }
 
-    if(message.content === "-serverinfo") {
+    if(message.content === prefix + "serverinfo") {
         if(!message.guild) return;
 
         let server = {
@@ -307,7 +333,7 @@ bot.on("message", async message=> {
         
     }
 
-    if(message.content.startsWith("-user")) {
+    if(message.content.startsWith(prefix + "user")) {
         let user = message.mentions.users.first() || message.author;
 
         let userinfo = {
@@ -335,7 +361,7 @@ bot.on("message", async message=> {
         
     }
 
-    if(message.content.startsWith("-umfrage")) {
+    if(message.content.startsWith(prefix + "umfrage")) {
         let text = message.content.split(" ").slice(1).join(" ");
         message.delete();
         message.channel.send(embed("Umfrage", text, "RANDOM", "Umfrage System")).then(msg=>{
@@ -345,20 +371,153 @@ bot.on("message", async message=> {
         });
     }
 
-    if(message.content.startsWith("-dashboard")) {
-        if(message.member.hasPermission("ADMINISTRATOR")) {
-            message.reply("https://serversystembot.herokuapp.com/" + uuidV4());
-        }
+    if(message.content.startsWith(prefix + "ping")) {
+        message.channel.send("Pong! :ping_pong: Dauerte " + bot.ws.ping + "ms")
     }
+
+    if(message.content.startsWith(prefix + "ascii")) {
+        let content = message.content.split(" ").slice(1).join(" ");
+
+        if(!content) return message.reply("-ascii Hallo Welt");
+
+        ascii.font(content, "Doom", function(err, result){
+            if(err) {
+                return message.channel.send("O_o");
+            }
+
+            message.channel.send("```" + result + "```");
+        });
+
+    }
+
+    if(message.content.startsWith("<@!623913139980992569>")) {
+        message.reply("Mein Prefix hier ist: **" + prefix + "**");
+    }
+
+    if(message.content.startsWith(prefix + "setprefix")) {
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Ich denke nicht das du das darfst.");
+
+        let newprefix = message.content.split(" ").slice(1).join("");
+
+        serverstats[message.guild.id].prefix = newprefix;
+
+        message.channel.send("Der neue Prefix ist **" + newprefix + "**");
+
+        fs.writeFile("./servers.json", JSON.stringify(serverstats), function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
+    }
+
+    if(message.content.startsWith(prefix + "setwelcome")) {
+        if(!message.member.hasPermission("ADMINISTRATOR")) return message.reply("Ich denke nicht das du das darfst.");
+
+        let newwelcome = message.content.split(" ").slice(1).join("");
+
+        serverstats[message.guild.id].welcome = newwelcome;
+
+        message.channel.send("Der neue Welcomechannel ist **" + newwelcome + "**");
+
+        fs.writeFile("./servers.json", JSON.stringify(serverstats), function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
+    }
+
+    if(message.content.startsWith(prefix + "meme")) {
+        var subreddits;
+        var name = "Meme";
+        if(message.content.split(" ").length === 1) {
+            subreddits = [
+                "memes"
+            ];
+        } else {
+            var memetype = message.content.split(" ")[1];
+            if(memetype == "amongus") {
+                subreddits = [
+                    "amongusmemes"
+                ];
+                name = "Among Us Meme";
+            } else {
+                message.reply("Sorry, ich kenne r/" + memetype + " nicht!");
+                return;
+            }
+        }
+        let subreddit = subreddits[Math.floor(Math.random()*(subreddits.length))];
+
+        let img = await require("imageapi.js")(subreddit);
+
+        const Embed = new discord.MessageEmbed()
+        .setTitle(name)
+        .setColor("RANDOM")
+        .setImage(img);
+
+        message.channel.send(Embed)
+    }
+
+
+
+
+
+
+
+
+    // MUSIC
+    if(message.content.startsWith(prefix + "play")) {
+        const args = message.content.substring(prefix.length).split(" ");
+        const voiceChannel = message.member.voice.channel;
+        if(!voiceChannel) {
+            message.reply("Du musst in einem VoiceChannel sein!")
+            return;
+        }
+        const perms= voiceChannel.permissionsFor(message.client.user);
+        if(!perms.has("CONNECT")) return message.channel.send("Hab keine rechte für den Channel ):");
+        if(!perms.has("SPEAK")) return message.channel.send("Darf in dem Channel nix abspielen ):");
+
+        try {
+            var connection = await voiceChannel.join();
+        } catch(O_o) {
+            console.log("O_o");
+            message.channel.send("O_o");
+            return;
+        }
+        console.log(args[1]);
+
+        const songInfo = await ytdl.getInfo(args[1]);
+        const song = {
+          title: songInfo.title,
+          url: songInfo.video_url
+        };
+
+
+        const dispatcher = connection
+      .play(ytdl(song.url))
+      .on("finish", () => {
+        
+      })
+      .on("error", error => console.error(error));
+    dispatcher.setVolumeLogarithmic(5 / 5);
+    }
+    if(message.content.startsWith(prefix + "stop")) {
+        if(!message.member.voice.channel) return message.channel.send("Du bist in keinem VoiceChannel!");
+        message.member.voice.channel.leave();
+    }
+
 });
 
 bot.on("guildMemberAdd", function(member) {
-    let channel = member.guild.channels.cache.find(ch => ch.name === "welcome");
+    checkServerStats(member.guild.id);
+    let channel = member.guild.channels.cache.find(ch => ch.name === serverstats[member.guild.id].welcome);
+    if(!channel) return;
     channel.send(member.displayName + " ist beigetreten! :tada:");
 });
 
 bot.on("guildMemberRemove", function(member) {
-    let channel = member.guild.channels.cache.find(ch => ch.name === "welcome");
+    checkServerStats(member.guild.id);
+    let channel = member.guild.channels.cache.find(ch => ch.name === serverstats[member.guild.id].welcome);
+    if(!channel) return;
     channel.send(member.displayName + " hat den Server verlassen! :sob:");
 });
 
