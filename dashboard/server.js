@@ -39,10 +39,7 @@ class WebSocket {
                 return;
             }
             
-            var chans = [];
-            this.bot.guilds.first().channels.forEach(c => {
-                chans.put({ id: c.id, name: c.name })
-            });
+            var chans = [{ id: 644554298772029440, name: "testing"}];
 
             res.render("index", { title: "Server System", token: _token, chans })
         });
