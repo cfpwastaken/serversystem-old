@@ -1,5 +1,6 @@
 class Dashboard {
     constructor(PORT, bot) {
+        const fs = require("fs");
         this.serveruuids = {};
         fs.writeFile("./serveruuids.json", JSON.stringify(this.serveruuids), function(err) {
             if(err) {
