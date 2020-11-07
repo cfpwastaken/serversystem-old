@@ -287,7 +287,8 @@ bot.on("message", async message=> {
             .setLevel(parseInt(xpfile[user.id].level))
             .setCurrentXP(parseInt(xpfile[user.id].xp))
             .setRequiredXP(parseInt(xpfile[user.id].reqxp))
-            .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));
+            .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}))
+            .setStatus(message.author.status);
         
         const img = await card.build();
 
@@ -513,6 +514,13 @@ bot.on("message", async message=> {
     if(message.content.startsWith(prefix + "stop")) {
         if(!message.member.voice.channel) return message.channel.send("Du bist in keinem VoiceChannel!");
         message.member.voice.channel.leave();
+    }
+
+    if(message.content.startsWith(prefix + "eval")) {
+        if(message.author.id == "318394797822050315") {
+            const result = eval(message.content.replace(prefix + "eval ", ""));
+            message.channel.send(result);
+        }
     }
 
 });
