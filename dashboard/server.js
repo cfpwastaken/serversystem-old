@@ -1,4 +1,4 @@
-const PORT = process.env.DASHBOARDPORT || 80;
+const PORT = process.env.PORT || 80;
 
 
 const express = require("express");
