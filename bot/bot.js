@@ -12,6 +12,7 @@ const fs = require("fs");
 const xpfile = require("./xp.json");
 const ascii = require("ascii-art");
 const serverstats = require("./servers.json");
+const canvacord = require("canvacord");
 
 const ytdl = require("ytdl-core");
 
@@ -274,12 +275,24 @@ bot.on("message", async message=> {
             });
         }
 
-        let embed = new discord.MessageEmbed()
+        /*let embed = new discord.MessageEmbed()
         .setTitle("Level")
         .setColor("RANDOM")
         .addField("Level", xpfile[user.id].level)
         .addField("XP", xpfile[user.id].xp)
-        .addField("XP benötigt", xpfile[user.id].reqxp);
+        .addField("XP benötigt", xpfile[user.id].reqxp);*/
+        const card = new canvacord.Rank()
+            .setUsername(message.author.username)
+            .setDiscriminator(message.author.discriminator)
+            .setRank("rank")
+            .setLevel(xpfile[user.id].level)
+            .setCurrentXP(xpfile[user.id].xp)
+            .setRequiredXP(xpfile[user.id].reqxp)
+            .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));
+        
+        const img = await card.build();
+
+        message.channel.send(new discord.MessageAttachment(img, "card.png"));
         
         message.channel.send(embed);
     }
