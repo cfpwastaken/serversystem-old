@@ -1,5 +1,11 @@
 class Dashboard {
     constructor(PORT, bot) {
+        this.serveruuids = {};
+        fs.writeFile("./serveruuids.json", JSON.stringify(this.serveruuids), function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
         this.bot = bot;
         this.PORT = PORT;
         const express = require("express");
@@ -10,10 +16,21 @@ class Dashboard {
         });
 
         this.app.get("/:uid", (req, res) => {
-            res.send(req.params.uid);
+            if(this.serveruuids.hasOwnProperty(req.params.uuid)) res.send("Yes");
+            else res.send("No");
         })
 
         this.app.listen(PORT, console.log("[Dashboard] Dashboard Up and Running!"));
+    }
+
+    newUUID(uuid, server) {
+        console.log("NEW UUID: " + uuid);
+        this.serveruuids[uuid] = server;
+        fs.writeFile("./serveruuids.json", JSON.stringify(this.serveruuids), function(err) {
+            if(err) {
+                console.log(err);
+            }
+        });
     }
 }
 
