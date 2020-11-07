@@ -44,6 +44,17 @@ class WebSocket {
             res.render("index", { title: "Server System", token: _token, chans })
         });
 
+        this.app.get("/sendMessage", (req, res) => {
+            var _token = req.body.token;
+            var text = req.body.text;
+            var channelid = req.body.channelid;
+            if(!this.checkToken(_token)) {
+                return;
+            }
+            var chan = this.bot.channels.get(channelid);
+            chan.send(text);
+        })
+
     }
 }
 
