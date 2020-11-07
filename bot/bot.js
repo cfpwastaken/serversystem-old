@@ -286,8 +286,8 @@ bot.on("message", async message=> {
             .setDiscriminator(message.author.discriminator)
             .setRank(parseInt(1))
             .setLevel(parseInt(xpfile[user.id].level))
-            .setCurrentXP(parseIntxpfile[user.id].xp))
-            .setRequiredXP(parseIntxpfile[user.id].reqxp))
+            .setCurrentXP(parseInt(xpfile[user.id].xp))
+            .setRequiredXP(parseInt(xpfile[user.id].reqxp))
             .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));
         
         const img = await card.build();
