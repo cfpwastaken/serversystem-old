@@ -284,10 +284,10 @@ bot.on("message", async message=> {
         const card = new canvacord.Rank()
             .setUsername(message.author.username)
             .setDiscriminator(message.author.discriminator)
-            .setRank("rank")
-            .setLevel(xpfile[user.id].level)
-            .setCurrentXP(xpfile[user.id].xp)
-            .setRequiredXP(xpfile[user.id].reqxp)
+            .setRank(parseInt(1))
+            .setLevel(parseInt(xpfile[user.id].level))
+            .setCurrentXP(parseIntxpfile[user.id].xp))
+            .setRequiredXP(parseIntxpfile[user.id].reqxp))
             .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));
         
         const img = await card.build();
