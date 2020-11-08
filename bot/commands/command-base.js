@@ -1,5 +1,4 @@
 const serverstats = require("../servers.json");
-const fs = require("fs");
 
 function checkServerStats(guildid) {
     if(!serverstats[guildid]) {
@@ -12,7 +11,7 @@ function checkServerStats(guildid) {
     if(!serverstats[guildid].prefix) {serverstats[guildid].prefix = "-";}
     if(!serverstats[guildid].welcome) {serverstats[guildid].welcome = "welcome";}
 
-    fs.writeFile("./servers.json", JSON.stringify(serverstats), function(err) {
+    require("fs").writeFile("./servers.json", JSON.stringify(serverstats), function(err) {
         if(err) {
             console.log(err);
         }
