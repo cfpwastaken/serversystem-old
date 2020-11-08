@@ -1,4 +1,5 @@
 const serverstats = require("../servers.json");
+const fs = require("fs");
 
 function checkServerStats(guildid) {
     if(!serverstats[guildid]) {
