@@ -20,7 +20,6 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     callback: (message, arguments, text) => {
-        let text = message.content.split(" ").slice(1).join(" ");
         message.delete();
         message.channel.send(embed("Umfrage", text, "RANDOM", "Umfrage System")).then(msg=>{
             msg.react('👍').then(r => {
