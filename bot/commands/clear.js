@@ -15,10 +15,10 @@ function embed(title, desc, color, footer) {
 
 module.exports = {
     commands: ['clear', 'c'],
-    expectedArgs: '',
+    expectedArgs: '<anzahl>',
     permissionError: 'I dont think you should be able to execute this command :grin:',
-    minArgs: 0,
-    maxArgs: 0,
+    minArgs: 1,
+    maxArgs: 1,
     callback: (message, arguments, text) => {
         let msgs = message.content.split(" ").slice(1).join("");
 
