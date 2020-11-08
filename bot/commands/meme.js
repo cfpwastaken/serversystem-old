@@ -19,7 +19,7 @@ module.exports = {
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
     maxArgs: 0,
-    callback: (message, arguments, text) => {
+    callback: async function(message, arguments, text) {
         var subreddits;
         var name = "Meme";
         if(message.content.split(" ").length === 1) {
