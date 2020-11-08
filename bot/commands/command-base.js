@@ -59,6 +59,11 @@ const validatePermissions = (permissions) => {
 }
 
 module.exports = (bot, commandOptions) => {
+    
+    checkServerStats(message.guild.id);
+
+    let prefix = serverstats[message.guild.id].prefix;
+
     let {
         commands,
         expectedArgs = '',
