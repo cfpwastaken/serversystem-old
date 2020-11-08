@@ -97,7 +97,7 @@ module.exports = (bot, commandOptions) => {
 
         for(const alias of commands) {
             if(content.toLowerCase().startsWith(`${prefix}${alias.toLowerCase()} `) || content.toLowerCase() === (`${prefix}${alias.toLowerCase()}`)) {
-                console.log(`[${message.author.tag}] Executing Command ${command}`);
+                console.log(`[${message.author.tag}] Executing Command ${alias}`);
                 
                 for(const permission of permissions) {
                     if(!member.hasPermission(permission)) {
