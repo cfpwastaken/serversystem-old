@@ -14,13 +14,13 @@ function embed(title, desc, color, footer) {
 }
 
 module.exports = {
-    commands: ['ping'],
+    commands: ['invite'],
     expectedArgs: '',
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
     maxArgs: 0,
     callback: (msg, arguments, text) => {
-        msg.channel.send(global.embed(":ping_pong: Pong!", `Latency: ${Date.now() - msg.createdTimestamp}ms\nAPI: ${Math.round(msg.client.ws.ping)}ms`, "RANDOM"));
+        msg.reply("https://discord.com/oauth2/authorize?client_id=623913139980992569&permissions=8&scope=bot");
     },
     permissions: [],
     requiredRoles: []

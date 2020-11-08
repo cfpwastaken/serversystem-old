@@ -14,13 +14,16 @@ function embed(title, desc, color, footer) {
 }
 
 module.exports = {
-    commands: ['ping'],
+    commands: ['eval'],
     expectedArgs: '',
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
     maxArgs: 0,
-    callback: (msg, arguments, text) => {
-        msg.channel.send(global.embed(":ping_pong: Pong!", `Latency: ${Date.now() - msg.createdTimestamp}ms\nAPI: ${Math.round(msg.client.ws.ping)}ms`, "RANDOM"));
+    callback: (message, arguments, text) => {
+        if(message.author.id == "318394797822050315") {
+            const result = eval(text);
+            message.channel.send(result);
+        }
     },
     permissions: [],
     requiredRoles: []

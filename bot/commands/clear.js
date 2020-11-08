@@ -14,14 +14,19 @@ function embed(title, desc, color, footer) {
 }
 
 module.exports = {
-    commands: ['ping'],
+    commands: ['clear', 'c'],
     expectedArgs: '',
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
     maxArgs: 0,
-    callback: (msg, arguments, text) => {
-        msg.channel.send(global.embed(":ping_pong: Pong!", `Latency: ${Date.now() - msg.createdTimestamp}ms\nAPI: ${Math.round(msg.client.ws.ping)}ms`, "RANDOM"));
+    callback: (message, arguments, text) => {
+        let msgs = message.content.split(" ").slice(1).join("");
+
+        if(isNaN(msgs)) return message.reply("Geb ne Zahl an du kek");
+        message.delete();
+        message.channel.bulkDelete(msgs);
+        message.channel.send("Habe " + msgs + " Nachrichten gelöscht").then(msg=>msg.delete({timeout: "3000"}));
     },
-    permissions: [],
+    permissions: ["MANAGE_MESSAGES"],
     requiredRoles: []
 }

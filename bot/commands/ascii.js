@@ -14,13 +14,23 @@ function embed(title, desc, color, footer) {
 }
 
 module.exports = {
-    commands: ['ping'],
-    expectedArgs: '',
+    commands: ['ascii'],
+    expectedArgs: '<text>',
     permissionError: 'I dont think you should be able to execute this command :grin:',
-    minArgs: 0,
-    maxArgs: 0,
-    callback: (msg, arguments, text) => {
-        msg.channel.send(global.embed(":ping_pong: Pong!", `Latency: ${Date.now() - msg.createdTimestamp}ms\nAPI: ${Math.round(msg.client.ws.ping)}ms`, "RANDOM"));
+    minArgs: 1,
+    maxArgs: 9999999999999,
+    callback: (message, arguments, text) => {
+        let content = message.content.split(" ").slice(1).join(" ");
+
+        if(!content) return message.reply("-ascii Hallo Welt");
+
+        ascii.font(content, "Doom", function(err, result){
+            if(err) {
+                return message.channel.send("O_o");
+            }
+
+            message.channel.send("```" + result + "```");
+        });
     },
     permissions: [],
     requiredRoles: []
