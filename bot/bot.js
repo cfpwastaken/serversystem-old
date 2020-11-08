@@ -14,6 +14,8 @@ const ascii = require("ascii-art");
 const serverstats = require("./servers.json");
 const canvacord = require("canvacord");
 
+const path = require("path");
+
 //const ytdl = require("ytdl-core");
 
 //bot.db = require("quick.db");
@@ -24,6 +26,25 @@ bot.on("ready", () => {
     bot.user.setActivity("-help", {type: "LISTENING"});
     //bot.user.setStatus("dnd");
     //bot.user.setActivity("nicht cfps code", {type: "LISTENING"});
+
+    const baseFile = "command-base.js";
+    const commandBase = require(`./commands/${baseFile}`);
+
+    const readCommands = dir => {
+        const files = fs.readdirSync(path.join(__dirname, dir));
+        for(const file of files) {
+            const stat = fs.lstatSync(path.join(__dirname, dir, file));
+            if(stat.isDirectory()) {
+                readCommands(path.join(dir, file));
+            } else if(file !== baseFile) {
+                const option = require(path.join(__dirname, dir, file));
+                commandBase(bot, option);
+            }
+        }
+    };
+
+    readCommands("commands");
+
 });
 
 function embed(title, desc, color, footer) {
@@ -35,30 +56,8 @@ function embed(title, desc, color, footer) {
     return embed;
 }
 
-function checkServerStats(guildid) {
-    if(!serverstats[guildid]) {
-        serverstats[guildid] = {
-            prefix: "-",
-            welcome: "welcome"
-        };
-    }
-
-    if(!serverstats[guildid].prefix) {serverstats[guildid].prefix = "-";}
-    if(!serverstats[guildid].welcome) {serverstats[guildid].welcome = "welcome";}
-
-    fs.writeFile("./servers.json", JSON.stringify(serverstats), function(err) {
-        if(err) {
-            console.log(err);
-        }
-    });
-}
-
-bot.on("message", async message=> {
+/*bot.on("message", async message=> {
     if(message.author.bot) return;
-
-    checkServerStats(message.guild.id);
-
-    let prefix = serverstats[message.guild.id].prefix;
 
     if(message.content.includes("hure") || message.content.includes("spast") || message.content.includes("huso") || message.content.includes("hurensohn")) {
         message.reply("nicht beleidigen!");
@@ -275,12 +274,12 @@ bot.on("message", async message=> {
             });
         }
 
-        /*let embed = new discord.MessageEmbed()
-        .setTitle("Level")
-        .setColor("RANDOM")
-        .addField("Level", xpfile[user.id].level)
-        .addField("XP", xpfile[user.id].xp)
-        .addField("XP benötigt", xpfile[user.id].reqxp);*/
+        //let embed = new discord.MessageEmbed()
+        //.setTitle("Level")
+        //.setColor("RANDOM")
+        //.addField("Level", xpfile[user.id].level)
+        //.addField("XP", xpfile[user.id].xp)
+        //.addField("XP benötigt", xpfile[user.id].reqxp);
         const card = new canvacord.Rank()
             .setUsername(message.author.username)
             .setDiscriminator(message.author.discriminator)
@@ -526,7 +525,7 @@ bot.on("message", async message=> {
         message.reply("https://discord.com/oauth2/authorize?client_id=623913139980992569&permissions=8&scope=bot");
     }
 
-});
+});*/
 
 bot.on("guildMemberAdd", function(member) {
     checkServerStats(member.guild.id);
