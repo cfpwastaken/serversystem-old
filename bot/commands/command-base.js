@@ -1,3 +1,5 @@
+const serverstats = require("../servers.json");
+
 function checkServerStats(guildid) {
     if(!serverstats[guildid]) {
         serverstats[guildid] = {
@@ -89,7 +91,7 @@ module.exports = (bot, commandOptions) => {
         checkServerStats(message.guild.id);
     
         let prefix = serverstats[message.guild.id].prefix;
-        
+
         const { member, content, guild } = message;
 
         for(const alias of commands) {

@@ -11,7 +11,6 @@ const bot = new discord.Client();
 const fs = require("fs");
 const xpfile = require("./xp.json");
 const ascii = require("ascii-art");
-const serverstats = require("./servers.json");
 const canvacord = require("canvacord");
 
 const path = require("path");
