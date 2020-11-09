@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 80;
 
 const discord = require("discord.js");
 const bot = new discord.Client();
-//const fs = require("fs");
+const fs = require("fs");
 //const xpfile = require("./xp.json");
 const ascii = require("ascii-art");
 const canvacord = require("canvacord");
