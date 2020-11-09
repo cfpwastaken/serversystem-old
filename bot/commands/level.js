@@ -14,7 +14,7 @@ function embed(title, desc, color, footer) {
 }
 
 module.exports = {
-    commands: ['ping'],
+    commands: ['level'],
     expectedArgs: '',
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
