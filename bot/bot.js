@@ -8,10 +8,11 @@ const PORT = process.env.PORT || 80;
 
 const discord = require("discord.js");
 const bot = new discord.Client();
-const fs = require("fs");
-const xpfile = require("./xp.json");
+//const fs = require("fs");
+//const xpfile = require("./xp.json");
 const ascii = require("ascii-art");
 const canvacord = require("canvacord");
+const Canvas = require("canvas");
 
 const path = require("path");
 
@@ -46,16 +47,31 @@ bot.on("ready", () => {
 
 });
 
-bot.on("guildMemberAdd", function(member) {
-    checkServerStats(member.guild.id);
-    let channel = member.guild.channels.cache.find(ch => ch.name === serverstats[member.guild.id].welcome);
+bot.on("guildMemberAdd", async function(member) {
+    //checkServerStats(member.guild.id);
+    //let channel = member.guild.channels.cache.find(ch => ch.name === serverstats[member.guild.id].welcome);
+    let channel = member.guild.channels.cache.find(ch => ch.name === "welcome");
     if(!channel) return;
-    channel.send(member.displayName + " ist beigetreten! :tada:");
+    const canvas = Canvas.createCanvas(300, 168);
+    const ctx = canvas.getContext("2d");
+
+    const bg = await Canvas.loadImage(
+        path.join(__dirname, "bg.png")
+    );
+
+    let x = 0;
+    let y = 0;
+    ctx.drawImage(bg, x, y);
+
+    const att = new discord.MessageAttachment(canvas.toBuffer());
+    channel.send(att);
+    //channel.send(member.displayName + " ist beigetreten! :tada:");
 });
 
 bot.on("guildMemberRemove", function(member) {
-    checkServerStats(member.guild.id);
-    let channel = member.guild.channels.cache.find(ch => ch.name === serverstats[member.guild.id].welcome);
+    //checkServerStats(member.guild.id);
+    //let channel = member.guild.channels.cache.find(ch => ch.name === serverstats[member.guild.id].welcome);
+    let channel = member.guild.channels.cache.find(ch => ch.name === "welcome");
     if(!channel) return;
     channel.send(member.displayName + " hat den Server verlassen! :sob:");
 });
