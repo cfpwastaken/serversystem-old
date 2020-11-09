@@ -1,6 +1,6 @@
 const discord = require("discord.js");
 const fs = require("fs");
-const xpfile = require("../../xp.json");
+//const xpfile = require("../../xp.json");
 const ascii = require("ascii-art");
 const canvacord = require("canvacord");
 
@@ -20,7 +20,7 @@ module.exports = {
     minArgs: 1,
     maxArgs: 1,
     callback: (message, arguments, text) => {
-        let newprefix = message.content.split(" ").slice(1).join("");
+        /*let newprefix = message.content.split(" ").slice(1).join("");
 
         serverstats[message.guild.id].prefix = newprefix;
 
@@ -30,7 +30,9 @@ module.exports = {
             if(err) {
                 console.log(err);
             }
-        });
+        });*/
+
+        message.reply("Sorry, wir haben probleme mit unserem Provider. Der Prefix ist -");
     },
     permissions: ["ADMINISTRATOR"],
     requiredRoles: []

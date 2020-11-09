@@ -1,8 +1,8 @@
-const serverstats = require("../servers.json");
+//const serverstats = require("../servers.json");
 const fs = require("fs");
 
 const discord = require("discord.js");
-const xpfile = require("../xp.json");
+//const xpfile = require("../xp.json");
 const ascii = require("ascii-art");
 const canvacord = require("canvacord");
 
@@ -15,7 +15,7 @@ function embed(title, desc, color, footer) {
     return embed;
 }
 
-function checkServerStats(guildid) {
+/*function checkServerStats(guildid) {
     if(!serverstats[guildid]) {
         serverstats[guildid] = {
             prefix: "-",
@@ -31,7 +31,7 @@ function checkServerStats(guildid) {
             console.log(err);
         }
     });
-}
+}*/
 
 const validatePermissions = (permissions) => {
     const validPermissions = [
@@ -129,7 +129,7 @@ module.exports = (bot, commandOptions) => {
         }
 
         // XP
-        if(message.channel.name != "spam") {
+        /*if(message.channel.name != "spam") {
             var addXP = Math.floor(Math.random() * 8) + 3;
     
             if(!xpfile[message.author.id]) {
@@ -162,16 +162,17 @@ module.exports = (bot, commandOptions) => {
                     console.log(err);
                 }
             });
-        }
+        }*/
+
+        //checkServerStats(message.guild.id);
+    
+        //let prefix = serverstats[message.guild.id].prefix;
+        let prefix = "-";
 
         // GetPrefix
         if(message.content.startsWith("<@!623913139980992569>")) {
             message.reply("Mein Prefix hier ist: **" + prefix + "**");
         }
-
-        checkServerStats(message.guild.id);
-    
-        let prefix = serverstats[message.guild.id].prefix;
 
         const { member, content, guild } = message;
 

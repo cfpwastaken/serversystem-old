@@ -1,6 +1,6 @@
 const discord = require("discord.js");
 const fs = require("fs");
-const xpfile = require("../../xp.json");
+//const xpfile = require("../../xp.json");
 const ascii = require("ascii-art");
 const canvacord = require("canvacord");
 
@@ -20,7 +20,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     callback: (message, arguments, text) => {
-        let newwelcome = message.content.split(" ").slice(1).join("");
+        /*let newwelcome = message.content.split(" ").slice(1).join("");
 
         serverstats[message.guild.id].welcome = newwelcome;
 
@@ -30,7 +30,9 @@ module.exports = {
             if(err) {
                 console.log(err);
             }
-        });
+        });*/
+        
+        message.reply("Sorry, wir haben Probleme mit userem Provider. Der Welcomechannel ist #welcome");
     },
     permissions: ["ADMINISTRATOR"],
     requiredRoles: []

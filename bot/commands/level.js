@@ -1,6 +1,6 @@
 const discord = require("discord.js");
 const fs = require("fs");
-const xpfile = require("../xp.json");
+//const xpfile = require("../xp.json");
 const ascii = require("ascii-art");
 const canvacord = require("canvacord");
 
@@ -20,7 +20,7 @@ module.exports = {
     minArgs: 0,
     maxArgs: 0,
     callback: async function(message, arguments, text) {
-        let user = message.mentions.users.first() || message.author;
+        /*let user = message.mentions.users.first() || message.author;
 
         if(!xpfile[user.id]) {
             xpfile[user.id] = {
@@ -48,6 +48,14 @@ module.exports = {
             .setLevel(parseInt(xpfile[user.id].level))
             .setCurrentXP(parseInt(xpfile[user.id].xp))
             .setRequiredXP(parseInt(xpfile[user.id].reqxp))
+            .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));*/
+        
+        const card = new canvacord.Rank()
+            .setUsername(message.author.username)
+            .setDiscriminator(message.author.discriminator)
+            .setLevel(1)
+            .setCurrentXP(1)
+            .setRequiredXP(2)
             .setAvatar(message.author.displayAvatarURL({format: "png", size: 1024}));
         
         const img = await card.build();

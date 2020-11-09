@@ -1,6 +1,6 @@
 const discord = require("discord.js");
 const fs = require("fs");
-const xpfile = require("../../xp.json");
+//const xpfile = require("../../xp.json");
 const ascii = require("ascii-art");
 const canvacord = require("canvacord");
 
