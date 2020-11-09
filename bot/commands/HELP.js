@@ -40,6 +40,8 @@ module.exports = {
                         "Features:\n"+
                         "AutoMod • Löscht beleidigungen automatisch.\n"+
                         "Globalchat • Globalchat ist in jedem channel der \"#global\" heißt");
+        
+        msg.channel.send(embed);
     },
     permissions: [],
     requiredRoles: []
