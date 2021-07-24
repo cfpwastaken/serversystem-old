@@ -32,12 +32,7 @@ module.exports.commandBase = commandBase;
 bot.on("ready", async () => {
     console.log("[Discord] Ready!");
     
-    bot.user.setPresence({
-        activity: {
-            name: "a bot duel",
-            type: "COMPETING"
-        }
-    });
+    setStatusBasedOnBranch();
 
     await discotools.setup();
 
@@ -70,5 +65,32 @@ bot.on("button", (interaction, id) => {
 bot.on("message", async (msg) => {
     
 });
+
+function setStatusBasedOnBranch() {
+    const { exec } = require('child_process');
+    exec('git rev-parse --abbrev-ref HEAD', (err, stdout, stderr) => {
+        if (err) throw err;
+
+        if (typeof stdout === 'string') {
+            if(stdout.trim() === "main") {
+                bot.user.setPresence({
+                    status: "online",
+                    activity: {
+                        name: "a bot duel",
+                        type: "COMPETING"
+                    }
+                });
+            } else {
+                bot.user.setPresence({
+                    status: "dnd",
+                    activity: {
+                        name: "for new code on branch " + stdout.trim(),
+                        type: "WATCHING"
+                    }
+                });
+            }
+        }
+    });
+}
 
 bot.login(token);
