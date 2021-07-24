@@ -1,6 +1,5 @@
-const serverstats = require("../servers.json");
 const fs = require("fs");
-const utils = require("../utils/util-functions.js");
+const sql = require("../util/sql");
 
 const Discord = require("discord.js");
 
@@ -37,6 +36,11 @@ const validatePermissions = (permissions) => {
         'MANAGE_ROLES',
         'MANAGE_WEBHOOKS',
         'MANAGE_EMOJIS',
+        'USE_SLASH_COMMANDS',
+        'REQUEST_TO_SPEAK',
+        'MANAGE_THREADS',
+        'USE_PUBLIC_THREADS',
+        'USE_PRIVATE_THREADS'
     ];
 
     for(const permission of permissions) {
@@ -46,17 +50,14 @@ const validatePermissions = (permissions) => {
     }
 }
 
-module.exports = (bot, commandOptions, client) => {
+const allCommands = {};
+const cmds = []; // this is different
+
+module.exports = (commandOptions) => {
     let {
         commands,
-        expectedArgs = '',
-        permissionError = "I dont think you should be able to execute this command :grin:",
-        minArgs = 0,
-        maxArgs = null,
         permissions = [],
-        requiredRoles = [],
-        callback,
-        clientcallback
+        description
     } = commandOptions;
 
     if(typeof commands === "string") {
@@ -73,49 +74,92 @@ module.exports = (bot, commandOptions, client) => {
         validatePermissions(permissions);
     }
 
+    for(const command of commands) {
+        allCommands[command] = {
+            ...commandOptions,
+            commands,
+            permissions,
+            description
+        };
+    }
+
+    cmds.push({
+        ...commandOptions,
+        commands,
+        permissions,
+        description
+    });
+}
+
+module.exports.listen = (bot) => {
     bot.on("message", message => {
         if(message.author.bot) return;
 
-        utils.checkServerStats(message.guild.id);
-    
-        let prefix = serverstats[message.guild.id].prefix;
-
-        const { member, content, guild } = message;
-
-        for(const alias of commands) {
-            if(content.toLowerCase().startsWith(`${prefix}${alias.toLowerCase()} `) || content.toLowerCase() === (`${prefix}${alias.toLowerCase()}`)) {
-                console.log(`[${message.author.tag}] Executing Command ${alias}`);
+        // Check if the server is in database
+        sql.query("SELECT * FROM server WHERE serverid='" + message.guild.id + "'", (error, results, fields) => {
+            if(error) throw error;
+            if(results.length === 0) {
+                console.log("[Message] Guild is not in Database, adding it with default values...");
+                sql.query("INSERT INTO server (serverid, prefix) VALUES ('" + message.guild.id + "', '-')");
+            }
+            
+            sql.query("SELECT prefix FROM server WHERE serverid='" + message.guild.id + "'", (error, results, fields) => {
+                if(error) throw error;
+                var prefix = results[0].prefix;
                 
-                for(const permission of permissions) {
-                    if(!member.hasPermission(permission)) {
-                        message.reply(permissionError);
-                        return;
-                    }
-                }
-
-                for(const requiredRole of requiredRoles) {
-                    const role = guild.roles.cache.find(role => role.name === requiredRole);
-
-                    if(!role || !member.roles.cache.has(role.id)) {
-                        message.reply(`You need the ${requiredRole} role to exeute this command.`);
-                        return;
-                    }
-                }
+                const { member, content, guild } = message;
 
                 const arguments = content.split(/[ ]+/);
+        
+                const name = arguments.shift();
 
-                arguments.shift();
+                if(name.startsWith(prefix)) {
+                    const command = allCommands[name.replace(prefix, '')];
+                    if(!command) {
+                        return;
+                    }
 
-                if(arguments.length < minArgs || (maxArgs !== null && arguments.length > maxArgs)) {
-                    message.reply(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`);
-                    return
+                    const {
+                        permissions,
+                        permissionError = "I dont think you should be able to execute this command :grin:",
+                        requiredRoles = [],
+                        minArgs = 0,
+                        maxArgs = null,
+                        expectedArgs,
+                        callback,
+                        clientcallback
+                    } = command;
+
+                    console.log(`[${message.author.tag}] Executing Command ${name.replace(prefix, '')}`);
+                    
+                    for(const permission of permissions) {
+                        if(!member.hasPermission(permission)) {
+                            message.reply(permissionError);
+                            return;
+                        }
+                    }
+
+                    for(const requiredRole of requiredRoles) {
+                        const role = guild.roles.cache.find(role => role.name === requiredRole);
+
+                        if(!role || !member.roles.cache.has(role.id)) {
+                            message.reply(`You need the ${requiredRole} role to exeute this command.`);
+                            return;
+                        }
+                    }
+
+                    if(arguments.length < minArgs || (maxArgs !== null && arguments.length > maxArgs)) {
+                        message.reply(`Incorrect syntax! Use ${prefix}${alias} ${expectedArgs}`);
+                        return
+                    }
+
+                    if(!clientcallback) callback(message, arguments, arguments.join(" "));
+                    if(clientcallback) clientcallback(message, arguments, arguments.join(" "), client);
                 }
-
-                if(!clientcallback) callback(message, arguments, arguments.join(" "));
-                if(clientcallback) clientcallback(message, arguments, arguments.join(" "), client);
-
-                return;
-            }
-        }
+            });
+        });
     })
 }
+
+module.exports.allCommands = allCommands;
+module.exports.commands = cmds;
