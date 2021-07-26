@@ -6,6 +6,7 @@ module.exports = {// adding some typos to the commands list because i dont know 
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
     maxArgs: 0,
+    description: "Get a random quote",
     callback: async function(message, arguments, text) {
         const url = "http://api.quotable.io/random";
         let { data } = await axios.get(url);

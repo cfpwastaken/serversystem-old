@@ -13,7 +13,7 @@ module.exports = {
         for (let i = 0; i < commands.length; i++) {
             const command = commands[i];
             // msg.channel.send(utils.embed(command.commands[0], command.description, "RANDOM", "Help"));
-            desc = desc + `\n${command.commands[0]}${(command.expectedArgs == "") ? " " + command.expectedArgs : ""} - ${command.description}`;
+            if(!command.hidden) desc = desc + `\n${command.commands[0]}${(command.expectedArgs == "") ? " " + command.expectedArgs : ""} - ${command.description}`;
         }
         if(desc.length >= 2000) {
             msg.channel.send(utils.embed("Oops", "Help message is too long for discord", "F70000", "Error"))

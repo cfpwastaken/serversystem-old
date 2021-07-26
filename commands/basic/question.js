@@ -6,6 +6,7 @@ module.exports = {
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 1,
     maxArgs: 1,
+    description: "Ask a question",
     callback: (message, arguments, text) => {
         message.delete();
         message.channel.send(utils.embed("Question", text, "RANDOM", "Questions")).then(msg=>{
