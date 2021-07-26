@@ -13,7 +13,8 @@ If you just want to use the bot, you can invite it [here](https://www.youtube.co
 1. Clone the repo: `git clone https://github.com/cfpwastaken/serversystem`
 2. Flood your harddrive with useless stuff: `npm i`
 3. Make sure you have MySQL installed
-4. Create a .env file and type this into the file:
+4. Import the serversystem.sql file into your MySQL server.
+5. Create a .env file and type this into the file:
 
    ```dotenv
    TOKEN=yourdiscordtokenhere
@@ -23,4 +24,4 @@ If you just want to use the bot, you can invite it [here](https://www.youtube.co
    MYSQL_DATABASE=serversystem
    ```
 
-5. Start the bot: `node .`
+6. Start the bot: `node .`
