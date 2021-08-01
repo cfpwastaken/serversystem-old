@@ -153,8 +153,13 @@ module.exports.listen = (bot) => {
                         return
                     }
 
-                    if(!clientcallback) callback(message, arguments, arguments.join(" "));
-                    if(clientcallback) clientcallback(message, arguments, arguments.join(" "), client);
+                    try {
+                        if(!clientcallback) callback(message, arguments, arguments.join(" "));
+                        if(clientcallback) clientcallback(message, arguments, arguments.join(" "), client);
+                    } catch(e) {
+                        console.error(e);
+                        message.reply("O_o");
+                    }
                 }
             });
         });

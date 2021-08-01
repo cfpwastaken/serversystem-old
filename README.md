@@ -8,7 +8,7 @@ NOTE: The bot is still in development and i am working on implementing old featu
 
 Note: This part describes how you can install Server System on your local machine. You will need to know how to create discord bots with discord.js
 
-If you just want to use the bot, you can invite it [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ "TopGG") or [here](https://www.youtube.com/watch?v=fC7oUOUEEi4 "Discord")
+If you just want to use the bot, you can invite it [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ "TopGG") or [here](https://discord.com/oauth2/authorize?client_id=623913139980992569&permissions=8&scope=bot "Discord")
 
 1. Clone the repo: `git clone https://github.com/cfpwastaken/serversystem`
 2. Flood your harddrive with useless stuff: `npm i`
