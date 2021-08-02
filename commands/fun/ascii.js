@@ -10,10 +10,8 @@ module.exports = {
     callback: (message, arguments, text) => {
         let content = message.content.split(" ").slice(1).join(" ");
 
-        ascii.font(content, "Doom", function(err, result){
-            if(err) {
-                return message.channel.send("O_o");
-            }
+        ascii.font(content, "Doom", function(result, err){
+            if(err) throw err;
 
             message.channel.send("```" + result + "```");
         });
