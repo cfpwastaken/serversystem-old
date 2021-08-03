@@ -24,4 +24,5 @@ If you just want to use the bot, you can invite it [here](https://www.youtube.co
    MYSQL_DATABASE=serversystem
    ```
 
-6. Start the bot: `node .`
+6. If you want music to work, your system also needs ffmpeg. If you are on windows, google it. If you are on linux: `sudo apt install ffmpeg`
+7. Start the bot: `node .`
