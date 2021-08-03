@@ -23,7 +23,10 @@ module.exports = {
             }
             var searchmsg = await msg.channel.send(":mag: Searching for " + search + " on YouTube");
             await syt(search, (err, vid) => {
-                if(err) return console.log(err);
+                if(err) {
+                    msg.channel.send("O_o");
+                    return console.log(err);
+                }
                 const results = vid.videos
                 console.log(results[0]);
                 add(msg, results[0].url, queue.get(msg.guild.id), queue, searchmsg);
@@ -46,43 +49,48 @@ async function add(msg, url, queue, queuelist, searchmsg) {
         else embed2.setDescription("I can't join and talk in this channel.");
         msg.channel.send(embed);
     }
-    const songInfo = await ytdl.getInfo(url);
-    const song = {
-        title: songInfo.player_response.videoDetails.title,
-        url: url
-    }
-    if(searchmsg) searchmsg.delete();
-    if(!queue) {
-        const queueContruct = {
-            textChannel: msg.channel,
-            voiceChannel: vc,
-            connection: null,
-            songs: [],
-            volume: 1,
-            playing: true,
-        };
-
-
-        queuelist.set(msg.guild.id, queueContruct);
-        queueContruct.songs.push(song);
-        try {
-            vc.join().then(connection => {
-                queueContruct.connection = connection;
-                play(msg.guild, queueContruct.songs[0], queuelist);
-            })
-        } catch(err) {
-            console.log(err);
-            msg.channel.send(embed("O_o", "Something went wrong", "red", "Music"));
+    try {
+        const songInfo = await ytdl.getInfo(url);
+        const song = {
+            title: songInfo.player_response.videoDetails.title,
+            url: url
         }
-    } else {
-        let embed2 = new Discord.MessageEmbed();
-        embed2.setAuthor(`${msg.author.tag} added a song`, msg.author.displayAvatarURL());
-        embed2.setDescription(`Added "${song.title}" to the queue`);
-        embed2.setColor("RANDOM");
-        queue.songs.push(song)
-        //guildQueue.songs.push(song);
-        console.log(queue.songs);
-        return msg.channel.send(embed2);
+        if(searchmsg) searchmsg.delete();
+        if(!queue) {
+            const queueContruct = {
+                textChannel: msg.channel,
+                voiceChannel: vc,
+                connection: null,
+                songs: [],
+                volume: 1,
+                playing: true,
+            };
+
+
+            queuelist.set(msg.guild.id, queueContruct);
+            queueContruct.songs.push(song);
+            try {
+                vc.join().then(connection => {
+                    queueContruct.connection = connection;
+                    play(msg.guild, queueContruct.songs[0], queuelist);
+                })
+            } catch(err) {
+                console.log(err);
+                msg.channel.send(embed("O_o", "Something went wrong", "red", "Music"));
+            }
+        } else {
+            let embed2 = new Discord.MessageEmbed();
+            embed2.setAuthor(`${msg.author.tag} added a song`, msg.author.displayAvatarURL());
+            embed2.setDescription(`Added "${song.title}" to the queue`);
+            embed2.setColor("RANDOM");
+            queue.songs.push(song)
+            //guildQueue.songs.push(song);
+            console.log(queue.songs);
+            return msg.channel.send(embed2);
+        }
+    } catch(e) {
+        msg.channel.send("O_o");
+        console.log(e);
     }
 }
 
