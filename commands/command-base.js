@@ -100,7 +100,7 @@ module.exports.listen = (bot) => {
             if(error) throw error;
             if(results.length === 0) {
                 console.log("[Message] Guild is not in Database, adding it with default values...");
-                sql.query("INSERT INTO server (serverid, prefix) VALUES ('" + message.guild.id + "', '-')");
+                sql.query("INSERT INTO server (serverid, prefix, globalchat) VALUES ('" + message.guild.id + "', '-', '0')");
             }
             
             sql.query("SELECT prefix FROM server WHERE serverid='" + message.guild.id + "'", (error, results, fields) => {

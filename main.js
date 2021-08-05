@@ -27,11 +27,12 @@ const token = process.env.TOKEN;
 // Exports
 module.exports.sql = sql;
 module.exports.commandBase = commandBase;
+module.exports.bot = bot;
 
 // Events
 bot.on("ready", async () => {
     console.log("[Discord] Ready!");
-    
+    console.log("[Discord] Bot is in " + bot.guilds.cache.size + " guilds!");
     setStatusBasedOnBranch();
 
     await discotools.setup();
@@ -63,7 +64,8 @@ bot.on("button", (interaction, id) => {
 });
 
 bot.on("message", async (msg) => {
-    
+    console.log(msg.author.tag + " (" + msg.guild.name + "): " + msg.content);
+    require("./feature/globalchat.js")(msg);
 });
 
 function setStatusBasedOnBranch() {
