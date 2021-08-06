@@ -29,6 +29,8 @@ module.exports.sql = sql;
 module.exports.commandBase = commandBase;
 module.exports.bot = bot;
 
+// this is just a test
+
 // Events
 bot.on("ready", async () => {
     console.log("[Discord] Ready!");
