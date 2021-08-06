@@ -6,7 +6,7 @@ module.exports = {
         .setTitle(title)
         .setDescription(desc)
         .setColor(color)
-        .setFooter(footer + " | ServerSystem");
+        .setFooter(footer + " | " + process.env.BOT_NAME);
         return embed;
     },
     createAPIMessage: async function (interaction, content) {

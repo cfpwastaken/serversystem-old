@@ -1,12 +1,12 @@
 # ServerSystem
 
-Server System is a multi-purpose Discord Bot.
+Discord Bot is a multi-purpose Discord Bot.
 
 NOTE: The bot is still in development and i am working on implementing old features again.
 
 ## Installing
 
-Note: This part describes how you can install Server System on your local machine. You will need to know how to create discord bots with discord.js
+Note: This part describes how you can install Discord Bot on your local machine. You will need to know how to create discord bots with discord.js
 
 If you just want to use the bot, you can invite it [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ "TopGG") or [here](https://discord.com/oauth2/authorize?client_id=623913139980992569&permissions=8&scope=bot "Discord")
 
@@ -22,6 +22,7 @@ If you just want to use the bot, you can invite it [here](https://www.youtube.co
    MYSQL_USER=root
    MYSQL_PASSWORD=
    MYSQL_DATABASE=serversystem
+   BOT_NAME=Bot name here
    ```
 
 6. If you want music to work, your system also needs ffmpeg. If you are on windows, google it. If you are on linux: `sudo apt install ffmpeg`
