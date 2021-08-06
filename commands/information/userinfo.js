@@ -5,7 +5,7 @@ module.exports = {
     expectedArgs: '',
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
-    maxArgs: 0,
+    maxArgs: 1,
     description: "Get some information about a user",
     callback: (message, arguments, text) => {
         let user = message.mentions.users.first() || message.author;
