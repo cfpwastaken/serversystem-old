@@ -2,7 +2,7 @@ const discord = require("discord.js");
 
 module.exports = {
     commands: ['userinfo', 'user'],
-    expectedArgs: '',
+    expectedArgs: '[user]',
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 0,
     maxArgs: 1,
