@@ -5,7 +5,7 @@ module.exports = {
     expectedArgs: '<question>',
     permissionError: 'I dont think you should be able to execute this command :grin:',
     minArgs: 1,
-    maxArgs: 1,
+    maxArgs: 99999999,
     description: "Ask a question",
     callback: (message, arguments, text) => {
         message.delete();
