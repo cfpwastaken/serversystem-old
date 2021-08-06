@@ -29,7 +29,7 @@ module.exports.sql = sql;
 module.exports.commandBase = commandBase;
 module.exports.bot = bot;
 
-// this is just a test
+// this is just a test ooo
 
 // Events
 bot.on("ready", async () => {
