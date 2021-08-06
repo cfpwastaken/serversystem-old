@@ -12,6 +12,9 @@ module.exports = {
         if(!target) {
             return msg.reply("Please specify a target.");
         }
+        if(target.id === require("../../main").bot.user.id) {
+            return msg.reply("After all of my work, this is what you give me?");
+        }
         if(args.length == 1) {
             target.kick();
             msg.channel.send("You have kicked " + target.user.tag);
@@ -19,7 +22,11 @@ module.exports = {
             args.shift();
             const reason = args.join(" ");
             target.kick(reason);
-            msg.channel.send("You have kicked " + target.user.tag + " with reason " + reason);
+            if(target.kickable) {
+                msg.channel.send("You have kicked " + target.user.tag + " with reason " + reason);
+            } else {
+                msg.reply("I can't do that.");
+            }
         }
     },
     permissions: ["KICK_MEMBERS"],
