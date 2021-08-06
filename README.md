@@ -1,4 +1,4 @@
-# ServerSystem
+# Discord Bot
 
 Discord Bot is a multi-purpose Discord Bot.
 
