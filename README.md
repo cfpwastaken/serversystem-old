@@ -10,7 +10,7 @@ Note: This part describes how you can install Discord Bot on your local machine.
 
 If you just want to use the bot, you can invite it [here](https://www.youtube.com/watch?v=dQw4w9WgXcQ "TopGG") or [here](https://discord.com/oauth2/authorize?client_id=623913139980992569&permissions=8&scope=bot "Discord")
 
-1. Clone the repo: `git clone https://github.com/cfpwastaken/serversystem`
+1. Clone the repo: `git clone https://github.com/creelonestudios/discordbot`
 2. Flood your harddrive with useless stuff: `npm i`
 3. Make sure you have MySQL installed
 4. Import the serversystem.sql file into your MySQL server.
