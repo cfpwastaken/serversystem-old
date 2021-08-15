@@ -19,9 +19,10 @@
   "homepage": "https://github.com/cfpwastaken/serversystem#readme",
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
-    "ascii-art": "^2.8.1",
+    "@discordjs/voice": "^0.6.0",
+    "ascii-art": "^1.5.1",
     "axios": "^0.21.1",
-    "discord.js": "^12.5.3",
+    "discord.js": "^13.1.0",
     "discotools": "^1.6.0",
     "dotenv": "^10.0.0",
     "imageapi.js": "^1.7.0",

@@ -11,7 +11,7 @@ module.exports = {// adding some typos to the commands list because i dont know 
         const url = "http://api.quotable.io/random";
         let { data } = await axios.get(url);
 
-        message.channel.send(data["content"] + " *~" + data["author"] + "*");
+        message.channel.send({ content: data["content"] + " *~" + data["author"] + "*" });
     },
     permissions: [],
     requiredRoles: []

@@ -31,7 +31,7 @@ module.exports = {
         .addField("Bot", userinfo.bot)
         .addField("Erstellt", userinfo.createdAt);
 
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     },
     permissions: [],
     requiredRoles: []

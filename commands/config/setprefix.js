@@ -11,7 +11,7 @@ module.exports = {
     callback: async function(msg, args, text) {
         const prefix = args[0];
         mysql.query("UPDATE server SET prefix='" + prefix + "' WHERE serverid='" + msg.guild.id + "'");
-        msg.reply("Ok, the new prefix on this server is **" + prefix + "**");
+        msg.reply({ content: "Ok, the new prefix on this server is **" + prefix + "**" });
     },
     permissions: ["ADMINISTRATOR"],
     requiredRoles: []

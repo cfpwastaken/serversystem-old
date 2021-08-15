@@ -11,10 +11,10 @@ module.exports = {
     callback: async function(msg, args, text) {
         const channel = msg.mentions.channels.first();
         if(!channel) {
-            return msg.reply("Please specify a channel.");
+            return msg.reply({ content: "Please specify a channel." });
         }
         mysql.query("UPDATE server SET globalchat='" + channel.id + "' WHERE serverid='" + msg.guild.id + "'");
-        msg.reply("Ok, the new global channel on this server is **" + channel.name + "**");
+        msg.reply({ content: "Ok, the new global channel on this server is **" + channel.name + "**" });
     },
     permissions: ["ADMINISTRATOR"],
     requiredRoles: []

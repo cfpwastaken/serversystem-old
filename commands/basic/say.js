@@ -9,9 +9,9 @@ module.exports = {
     description: "Repeats your message!",
     callback: async function(msg, args, text) {
         if((text.includes("I") || text.includes("i")) && text.includes("dumb") && !text.includes("not")) {
-            msg.channel.send("I know.");
+            msg.channel.send({ content: "I know." });
         } else {
-            msg.channel.send(text);
+            msg.channel.send({ content: text });
             msg.delete();
         }
     },

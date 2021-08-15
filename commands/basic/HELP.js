@@ -16,9 +16,9 @@ module.exports = {
             if(!command.hidden) desc = desc + `\n${command.commands[0]}${(command.expectedArgs == "") ? " " + command.expectedArgs : ""} - ${command.description}`;
         }
         if(desc.length >= 2000) {
-            msg.channel.send(utils.embed("Oops", "Help message is too long for discord", "F70000", "Error"))
+            msg.channel.send({ embeds: [utils.embed("Oops", "Help message is too long for discord", "F70000", "Error")] });
         } else {
-            msg.channel.send(utils.embed("Help", desc, "RANDOM", "Help"));
+            msg.channel.send({ embeds: [utils.embed("Help", desc, "RANDOM", "Help")] });
         }
     },
     permissions: [],

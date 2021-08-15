@@ -35,7 +35,7 @@ module.exports = {
         .setColor("RANDOM")
         .setImage(img);
 
-        message.channel.send(Embed)
+        message.channel.send({ embeds: [Embed] });
     },
     permissions: [],
     requiredRoles: []

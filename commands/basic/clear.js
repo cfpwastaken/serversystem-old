@@ -8,10 +8,10 @@ module.exports = {
     callback: (message, arguments, text) => {
         let msgs = message.content.split(" ").slice(1).join("");
 
-        if(isNaN(msgs)) return message.reply("Amount needs to be a number");
+        if(isNaN(msgs)) return message.reply({ content: "Amount needs to be a number" });
         message.delete();
         message.channel.bulkDelete(msgs);
-        message.channel.send("I deleted " + msgs + " messages.").then(msg=>msg.delete({timeout: "3000"}));
+        message.channel.send({ content: "I deleted " + msgs + " messages." });
     },
     permissions: ["MANAGE_MESSAGES"],
     requiredRoles: []

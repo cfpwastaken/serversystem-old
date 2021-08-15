@@ -16,7 +16,7 @@ module.exports = (msg) => {
             message.setFooter(msg.guild.name, msg.guild.iconURL());
             message.setTimestamp();
             msg.delete();
-            msg.channel.send(message);
+            msg.channel.send({ embeds: [message] });
             // console.log(require("../main").bot.guilds.cache);
             require("../main").bot.guilds.cache.forEach(guild => {
                 if(guild.id != msg.guild.id) {
@@ -29,7 +29,7 @@ module.exports = (msg) => {
                                     const channel = guild.channels.cache.find(chan => chan.id === globalchat);
                                     if(channel) {
                                         // console.log(channel);
-                                        channel.send(message);
+                                        channel.send({ embeds: [message] });
                                     }
                                 }
                             }

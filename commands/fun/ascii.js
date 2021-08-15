@@ -13,7 +13,7 @@ module.exports = {
         ascii.font(content, "Doom", function(err, result){
             if(err) throw err;
 
-            message.channel.send("```" + result + "```");
+            message.channel.send({ content: "```" + result + "```" });
         });
     },
     permissions: [],

@@ -9,7 +9,7 @@ module.exports = {
     description: "Ask a question",
     callback: (message, arguments, text) => {
         message.delete();
-        message.channel.send(utils.embed("Question", text, "RANDOM", "Questions")).then(msg=>{
+        message.channel.send({ embeds: [utils.embed("Question", text, "RANDOM", "Questions")] }).then(msg=>{
             msg.react('👍').then(r => {
                 msg.react('👎');
             });

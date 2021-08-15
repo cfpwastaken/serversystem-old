@@ -26,16 +26,16 @@ module.exports = {
         .setTitle("Serverinfo")
         .setColor("RANDOM")
         .setThumbnail(server.logo)
-        .addField("Name", server.name)
-        .addField("Banner", server.banner)
-        .addField("User", server.members)
-        .addField("Owner", server.owner)
-        .addField("Created", server.createdAt)
-        .addField("Id", server.id)
-        .addField("Region", server.region)
-        .addField("Verified", server.verified);
+        .addField("Name", server.name+"")
+        .addField("Banner", server.banner+"")
+        .addField("User", server.members+"")
+        .addField("Owner", server.owner+"")
+        .addField("Created", server.createdAt+"")
+        .addField("Id", server.id+"")
+        .addField("Region", server.region+"")
+        .addField("Verified", server.verified+"");
 
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
     },
     permissions: [],
     requiredRoles: []

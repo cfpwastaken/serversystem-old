@@ -14,7 +14,7 @@ if(args.includes("mobile")) {
 }
 
 // Client stuff
-const bot = new discord.Client();
+const bot = new discord.Client({ intents: require("./intents.js") });
 
 // Post Bot Libraries
 const DiscoToolsObject = require("discotools"); // npm i discotools #schleichwerbung
@@ -28,6 +28,7 @@ const token = process.env.TOKEN;
 module.exports.sql = sql;
 module.exports.commandBase = commandBase;
 module.exports.bot = bot;
+module.exports.discotools = discotools;
 
 // Events
 bot.on("ready", async () => {
@@ -63,7 +64,7 @@ bot.on("button", (interaction, id) => {
     }
 });
 
-bot.on("message", async (msg) => {
+bot.on("messageCreate", async (msg) => {
     console.log(msg.author.tag + " (" + msg.guild.name + "): " + msg.content);
     require("./feature/globalchat.js")(msg);
 });

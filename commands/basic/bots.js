@@ -8,7 +8,7 @@ module.exports = {
     maxArgs: 0,
     description: "Show other bots by me",
     callback: async function(msg, arguments, text) {
-        msg.channel.send(utils.embed("Other Bots by Cfp", ""));
+        msg.channel.send({ embeds: [utils.embed("Other Bots by Cfp", "")] });
     },
     permissions: [],
     requiredRoles: []

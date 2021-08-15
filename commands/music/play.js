@@ -21,10 +21,10 @@ module.exports = {
                 if(args.length-1 === i) search = search + args[i];
                 else search = search + args[i] + " ";
             }
-            var searchmsg = await msg.channel.send(":mag: Searching for " + search + " on YouTube");
+            var searchmsg = await msg.channel.send({ content: ":mag: Searching for " + search + " on YouTube" });
             await syt(search, (err, vid) => {
                 if(err) {
-                    msg.channel.send("O_o");
+                    msg.channel.send({ content: "O_o" });
                     return console.log(err);
                 }
                 const results = vid.videos
@@ -39,7 +39,7 @@ module.exports = {
 
 async function add(msg, url, queue, queuelist, searchmsg) {
     const vc = msg.member.voice.channel;
-    if(!vc) return msg.channel.send(embed("Error", "You are not in a voice channel.", "red", "Music"));
+    if(!vc) return msg.channel.send({ embeds: [embed("Error", "You are not in a voice channel.", "red", "Music")] });
 
     const BotPerms = vc.permissionsFor(msg.client.user);
     if(!BotPerms.has("CONNECT") || !BotPerms.has("SPEAK")) {
@@ -47,7 +47,7 @@ async function add(msg, url, queue, queuelist, searchmsg) {
         if(BotPerms.has("CONNECT") && !BotPerms.has("SPEAK")) embed2.setDescription("I can't talk in this channel.");
         if(!BotPerms.has("CONNECT") && BotPerms.has("SPEAK")) embed2.setDescription("I can't join this channel.");
         else embed2.setDescription("I can't join and talk in this channel.");
-        msg.channel.send(embed);
+        msg.channel.send({ embeds: [embed2] });
     }
     try {
         const songInfo = await ytdl.getInfo(url);
@@ -76,7 +76,7 @@ async function add(msg, url, queue, queuelist, searchmsg) {
                 })
             } catch(err) {
                 console.log(err);
-                msg.channel.send(embed("O_o", "Something went wrong", "red", "Music"));
+                msg.channel.send({ embeds: [embed("O_o", "Something went wrong", "red", "Music")] });
             }
         } else {
             let embed2 = new Discord.MessageEmbed();
@@ -86,10 +86,10 @@ async function add(msg, url, queue, queuelist, searchmsg) {
             queue.songs.push(song)
             //guildQueue.songs.push(song);
             console.log(queue.songs);
-            return msg.channel.send(embed2);
+            return msg.channel.send({ embeds: [embed2] });
         }
     } catch(e) {
-        msg.channel.send("O_o");
+        msg.channel.send({ content: "O_o" });
         console.log(e);
     }
 }
@@ -106,7 +106,7 @@ async function play(guild, song, queue) {
         play(guild, guildQueue.songs[0], queue);
     }).on("error", err => console.log(err));
     dp.setVolumeLogarithmic(guildQueue.volume);
-    if(!(guildQueue.songs[0] === undefined)) guildQueue.textChannel.send(embed("Now Playing", song.title, "RANDOM", "Music"));
+    if(!(guildQueue.songs[0] === undefined)) guildQueue.textChannel.send({ embeds: [embed("Now Playing", song.title, "RANDOM", "Music")] });
 }
 
 module.exports.add = add;

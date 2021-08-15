@@ -9,7 +9,7 @@ module.exports = {
     description: "Pong!",
     callback: async function(msg, arguments, text) {
         msg.delete();
-        msg.channel.send(utils.embed(":loudspeaker: News :newspaper:", text, "RANDOM", "News")).then(msg2=>{
+        msg.channel.send({ embeds: [utils.embed(":loudspeaker: News :newspaper:", text, "RANDOM", "News")] }).then(msg2=>{
             if(msg2.crosspostable) {
                 msg2.crosspost();
             }

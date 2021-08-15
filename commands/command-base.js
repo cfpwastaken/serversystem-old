@@ -92,7 +92,7 @@ module.exports = (commandOptions) => {
 }
 
 module.exports.listen = (bot) => {
-    bot.on("message", message => {
+    bot.on("messageCreate", message => {
         if(message.author.bot) return;
 
         // Check if the server is in database
@@ -133,8 +133,8 @@ module.exports.listen = (bot) => {
                     console.log(`[${message.author.tag}] Executing Command ${name.replace(prefix, '')}`);
                     
                     for(const permission of permissions) {
-                        if(!member.hasPermission(permission)) {
-                            message.reply(permissionError);
+                        if(!member.permissions.has(permission)) {
+                            message.reply({ content: permissionError });
                             return;
                         }
                     }
@@ -143,13 +143,13 @@ module.exports.listen = (bot) => {
                         const role = guild.roles.cache.find(role => role.name === requiredRole);
 
                         if(!role || !member.roles.cache.has(role.id)) {
-                            message.reply(`You need the ${requiredRole} role to exeute this command.`);
+                            message.reply({ content: `You need the ${requiredRole} role to exeute this command.` });
                             return;
                         }
                     }
 
                     if(arguments.length < minArgs || (maxArgs !== null && arguments.length > maxArgs)) {
-                        message.reply(`Incorrect syntax! Use ${prefix}${name.replace(prefix, '')} ${expectedArgs}`);
+                        message.reply({ content: `Incorrect syntax! Use ${prefix}${name.replace(prefix, '')} ${expectedArgs}` });
                         return
                     }
 
@@ -158,7 +158,7 @@ module.exports.listen = (bot) => {
                         if(clientcallback) clientcallback(message, arguments, arguments.join(" "), client);
                     } catch(e) {
                         console.error(e);
-                        message.reply("O_o");
+                        message.reply({ content: "O_o" });
                     }
                 }
             });
