@@ -2,6 +2,8 @@
 
 Discord Bot is a multi-purpose Discord Bot.
 
+NOTE: This is the old version of the bot!! Please go to the new one!
+
 NOTE: The bot is still in development and i am working on implementing old features again.
 
 ## Installing
